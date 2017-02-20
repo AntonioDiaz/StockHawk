@@ -25,6 +25,7 @@ public final class Contract {
         public static final String COLUMN_ABSOLUTE_CHANGE = "absolute_change";
         public static final String COLUMN_PERCENTAGE_CHANGE = "percentage_change";
         public static final String COLUMN_HISTORY = "history";
+
         public static final int POSITION_ID = 0;
         public static final int POSITION_SYMBOL = 1;
         public static final int POSITION_PRICE = 2;
@@ -39,6 +40,7 @@ public final class Contract {
                 COLUMN_PERCENTAGE_CHANGE,
                 COLUMN_HISTORY
         );
+
         static final String TABLE_NAME = "quotes";
 
         public static Uri makeUriForStock(String symbol) {
@@ -48,8 +50,5 @@ public final class Contract {
         static String getStockFromUri(Uri queryUri) {
             return queryUri.getLastPathSegment();
         }
-
-
     }
-
 }

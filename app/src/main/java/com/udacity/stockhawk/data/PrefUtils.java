@@ -12,20 +12,20 @@ import java.util.Set;
 
 public final class PrefUtils {
 
-    private PrefUtils() {
-    }
+    private PrefUtils() { }
 
+	/**
+     *
+     * @param context
+     * @return
+     */
     public static Set<String> getStocks(Context context) {
         String stocksKey = context.getString(R.string.pref_stocks_key);
         String initializedKey = context.getString(R.string.pref_stocks_initialized_key);
         String[] defaultStocksList = context.getResources().getStringArray(R.array.default_stocks);
-
         HashSet<String> defaultStocks = new HashSet<>(Arrays.asList(defaultStocksList));
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-
         boolean initialized = prefs.getBoolean(initializedKey, false);
-
         if (!initialized) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(initializedKey, true);
@@ -34,19 +34,16 @@ public final class PrefUtils {
             return defaultStocks;
         }
         return prefs.getStringSet(stocksKey, new HashSet<String>());
-
     }
 
     private static void editStockPref(Context context, String symbol, Boolean add) {
         String key = context.getString(R.string.pref_stocks_key);
         Set<String> stocks = getStocks(context);
-
         if (add) {
             stocks.add(symbol);
         } else {
             stocks.remove(symbol);
         }
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putStringSet(key, stocks);
@@ -72,20 +69,14 @@ public final class PrefUtils {
         String key = context.getString(R.string.pref_display_mode_key);
         String absoluteKey = context.getString(R.string.pref_display_mode_absolute_key);
         String percentageKey = context.getString(R.string.pref_display_mode_percentage_key);
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
         String displayMode = getDisplayMode(context);
-
         SharedPreferences.Editor editor = prefs.edit();
-
         if (displayMode.equals(absoluteKey)) {
             editor.putString(key, percentageKey);
         } else {
             editor.putString(key, absoluteKey);
         }
-
         editor.apply();
     }
-
 }
