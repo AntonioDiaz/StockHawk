@@ -8,5 +8,11 @@
         android:orderInCategory="99"
         android:title="@string/action_change_units"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_last_refesh"
+        android:orderInCategory="1"
+        android:title="@string/last_refresh"
+        android:enabled="true"
+        app:showAsAction="collapseActionView" />
 
 </menu>

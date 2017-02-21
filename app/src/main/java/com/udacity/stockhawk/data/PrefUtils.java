@@ -6,7 +6,10 @@ import android.preference.PreferenceManager;
 
 import com.udacity.stockhawk.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -79,4 +82,37 @@ public final class PrefUtils {
         }
         editor.apply();
     }
+
+	/**
+     * Set the time when system refesh stocks.
+     * @param context
+     */
+    public static void setLastRefesh(Context context)  {
+        String keyLastRefresh = context.getString(R.string.pref_last_refresh_key);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(keyLastRefresh, new Date().getTime());
+        editor.apply();
+    }
+
+	/**
+     * Returns the time when system refesh stocks.
+     * @param context
+     * @return
+     */
+    public static String getLastRefesh(Context context){
+        long lastRefeshMiliseconds = 0;
+        String keyLastRefresh = context.getString(R.string.pref_last_refresh_key);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        lastRefeshMiliseconds = prefs.getLong(keyLastRefresh, lastRefeshMiliseconds);
+        /* in case there is not refresh yet return never. */
+        String lastRefreshStr = context.getString(R.string.never);
+        if (lastRefeshMiliseconds>0) {
+            Date lastRefreshDate = new Date(lastRefeshMiliseconds);
+            DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+            lastRefreshStr = df.format(lastRefreshDate);
+        }
+        return lastRefreshStr;
+    }
 }
+
