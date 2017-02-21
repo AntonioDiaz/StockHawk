@@ -36,6 +36,8 @@
     <string name="toast_stock_name_not_found">Sorry, stock name not found.</string>
     <string name="last_refresh">last refresh:\u0020</string>
     <string name="never">never</string>
-
+    <string name="stock_graph_title">%s - Position history</string>
+    <string name="stock_graph_label">last 2 years</string>
+    <string name="historical_position">Historical position</string>
 
 </resources>

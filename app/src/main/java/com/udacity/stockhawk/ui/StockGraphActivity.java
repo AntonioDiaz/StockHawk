@@ -3,10 +3,12 @@ package com.udacity.stockhawk.ui;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -40,7 +42,7 @@ public class StockGraphActivity extends AppCompatActivity implements SwipeRefres
 		swipeRefreshLayout.setOnRefreshListener(this);
 		swipeRefreshLayout.setRefreshing(true);
 		String symbol = getIntent().getStringExtra(MainActivity.STOCK_SYMBOL);
-		setTitle(symbol + ": Position history");
+		setTitle(getString(R.string.stock_graph_title, symbol));
 		onRefresh();
 	}
 
@@ -64,10 +66,20 @@ public class StockGraphActivity extends AppCompatActivity implements SwipeRefres
 			entries.add(new Entry(cont++, y));
 		}
 
-		LineDataSet dataSet = new LineDataSet(entries, "label");
+		LineDataSet dataSet = new LineDataSet(entries, getString(R.string.stock_graph_label));
+		int colorWhite = ContextCompat.getColor(this, R.color.colorWhite);
 		LineData lineData = new LineData(dataSet);
+		lineData.setValueTextColor(colorWhite);
 		lineChart.setData(lineData);
+		Legend legend = lineChart.getLegend();
+		legend.setTextColor(colorWhite);
 		lineChart.invalidate();
+		lineChart.getXAxis().setTextColor(colorWhite);
+		lineChart.getDescription().setTextColor(colorWhite);
+		lineChart.getDescription().setText(getString(R.string.historical_position));
+
+		lineChart.getAxisLeft().setTextColor(colorWhite);
+		lineChart.getAxisRight().setTextColor(colorWhite);
 		swipeRefreshLayout.setRefreshing(false);
 	}
 }
