@@ -82,4 +82,10 @@ public class StockGraphActivity extends AppCompatActivity implements SwipeRefres
 		lineChart.getAxisRight().setTextColor(colorWhite);
 		swipeRefreshLayout.setRefreshing(false);
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		swipeRefreshLayout.setEnabled(false);
+	}
 }

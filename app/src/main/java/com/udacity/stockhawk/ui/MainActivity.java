@@ -8,7 +8,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +32,6 @@ import com.udacity.stockhawk.sync.QuoteSyncJob;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements
 		LoaderManager.LoaderCallbacks<Cursor>,
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements
 			error.setVisibility(View.VISIBLE);
 		} else if (!networkUp()) {
 			swipeRefreshLayout.setRefreshing(false);
-			Toast.makeText(this, R.string.toast_no_connectivity, Toast.LENGTH_LONG).show();
+			showSnackBar();
 		} else if (PrefUtils.getStocks(this).size() == 0) {
 			swipeRefreshLayout.setRefreshing(false);
 			error.setText(getString(R.string.error_no_stocks));
@@ -139,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements
 			} else {
 				String message = getString(R.string.toast_stock_added_no_connectivity, symbol);
 				Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
 			}
 			PrefUtils.addStock(this, symbol);
 			QuoteSyncJob.syncImmediately(this);
@@ -158,11 +161,26 @@ public class MainActivity extends AppCompatActivity implements
 		swipeRefreshLayout.setRefreshing(false);
 		if (data.getCount() != 0) {
 			error.setVisibility(View.GONE);
+			if (!networkUp()) {
+				showSnackBar();
+			}
 		} else {
 			error.setText(getString(R.string.error_no_stocks));
 			error.setVisibility(View.VISIBLE);
+			Toast.makeText(this, R.string.toast_no_connectivity, Toast.LENGTH_LONG).show();
+
 		}
 		adapter.setCursor(data);
+	}
+
+	private void showSnackBar() {
+		View view = findViewById(R.id.container_layout);
+		Snackbar snackbar = Snackbar.make(view, getString(R.string.error_no_network), Snackbar.LENGTH_LONG);
+		TextView tv = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+		int color = ContextCompat.getColor(this, R.color.colorAccent);
+		tv.setTextColor(color);
+		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+		snackbar.show();
 	}
 
 
@@ -194,7 +212,6 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Timber.d("onOptionsItemSelected");
 		int id = item.getItemId();
 		if (id == R.id.action_change_units) {
 			PrefUtils.toggleDisplayMode(this);
