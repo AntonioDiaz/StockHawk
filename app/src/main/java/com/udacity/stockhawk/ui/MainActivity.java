@@ -1,6 +1,7 @@
 package com.udacity.stockhawk.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener{
 
 	private static final int STOCK_LOADER = 0;
+	public static final String STOCK_SYMBOL = "stock_symbol";
 
 	@SuppressWarnings("WeakerAccess")
 	@BindView(R.id.recycler_view)
@@ -55,7 +57,9 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override
 	public void onClick(String symbol) {
-		Timber.d("Symbol clicked: %s", symbol);
+		Intent intent = new Intent(this, StockGraphActivity.class);
+		intent.putExtra(MainActivity.STOCK_SYMBOL, symbol);
+		startActivity(intent);
 	}
 
 	@Override
