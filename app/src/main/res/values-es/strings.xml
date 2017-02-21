@@ -10,11 +10,15 @@
 
     <string name="toast_stock_added_no_connectivity">Symbol <xliff:g id="symbol">%s</xliff:g> added. Will refresh when network available.</string>
     <string name="toast_no_connectivity">Recargara cuando tenga red.</string>
-    <string name="toast_stock_name_not_found">No se encontro la acción.</string>
+    <string name="toast_stock_name_not_found">No se encontró la acción.</string>
     <string name="last_refresh">último refresco:\u0020</string>
     <string name="never">nunca</string>
     <string name="stock_graph_title"><xliff:g id="symbol">%s</xliff:g> - valores históricos</string>
     <string name="stock_graph_label">últimos 2 años</string>
     <string name="historical_position">Histórico</string>
+    <string name="action_add_stock">añadir acción al listado</string>
+    <string name="dialog_title">Añadir accion</string>
+    <string name="action_change_units">Cambiar unidades</string>
+    <string name="dialog_add">Añadir</string>
 
 </resources>

@@ -60,14 +60,17 @@ public final class QuoteSyncJob {
             while (iterator.hasNext()) {
                 String symbol = iterator.next();
                 Stock stock = quotes.get(symbol);
+                String name = stock.getName();
                 StockQuote quote = stock.getQuote();
                 /*Sanitary test: there is a check before adding the stock so quote should be always not null. */
-                if (quote!=null) {
+                if (quote!=null && name!=null) {
                     float price = quote.getPrice().floatValue();
                     float change = quote.getChange().floatValue();
                     float percentChange = quote.getChangeInPercent().floatValue();
                     // WARNING! Don't request historical data for a stock that doesn't exist!
                     // The request will hang forever X_x
+                    Timber.d("stock ---->" + stock.getName());
+                    Timber.d("stock ---->" + stock.getSymbol());
                     List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY);
                     StringBuilder historyBuilder = new StringBuilder();
                     for (HistoricalQuote it : history) {
@@ -82,6 +85,7 @@ public final class QuoteSyncJob {
                     quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
                     quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
                     quoteCV.put(Contract.Quote.COLUMN_HISTORY, historyBuilder.toString());
+                    quoteCV.put(Contract.Quote.COLUMN_NAME, name);
                     quoteCVs.add(quoteCV);
                 }
             }

@@ -90,7 +90,7 @@ public class AddStockDialog extends DialogFragment {
 				if ((strings != null && strings.length > 0)) {
 					Stock newStock = YahooFinance.get(strings[0].toString());
 					Timber.d("stock " + newStock);
-					if (newStock != null && newStock.getQuote().getPrice() != null) {
+					if (newStock != null && newStock.getName()!=null && newStock.getQuote().getPrice() != null) {
 						existsStock = true;
 					}
 				}

@@ -1,5 +1,5 @@
 <resources xmlns:xliff="http://schemas.android.com/tools">
-    <string name="app_name">Stock Hawk</string>
+    <string name="app_name" translatable="false">Stock Hawk</string>
 
     <string name="pref_stocks_initialized_key" translatable="false">initialized</string>
 
@@ -20,13 +20,13 @@
     <string name="pref_last_refresh_key" translatable="false">pref_last_refresh_key</string>
 
 
-    <string name="action_change_units" translatable="false">@string/pref_display_mode_key</string>
+    <string name="action_change_units">Change units</string>
 
 
-    <string name="dialog_title" translatable="false">Add Stock</string>
+    <string name="dialog_title">Add Stock</string>
     <string name="dialog_hint">Symbol (e.g. GOOG)</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="dialog_add" translatable="false">Add</string>
+    <string name="dialog_add">Add</string>
 
     <string name="error_no_network">No network connectivity! Will load stock cursor when the network is available.</string>
     <string name="error_no_stocks">No stocks added! Hit the floating action button to add one.</string>
@@ -39,5 +39,7 @@
     <string name="stock_graph_title"><xliff:g id="symbol">%s</xliff:g> - Position history</string>
     <string name="stock_graph_label">last 2 years</string>
     <string name="historical_position">Historical position</string>
+
+    <string name="action_add_stock">Add stock to the list</string>
 
 </resources>
