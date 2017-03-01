@@ -9,6 +9,12 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.firebase.jobdispatcher.Driver;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.Trigger;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 
@@ -31,7 +37,7 @@ import yahoofinance.quotes.stock.StockQuote;
 public final class QuoteSyncJob {
 
     private static final int ONE_OFF_ID = 2;
-    private static final String ACTION_DATA_UPDATED = "com.udacity.stockhawk.ACTION_DATA_UPDATED";
+    public static final String ACTION_DATA_UPDATED = "com.udacity.stockhawk.ACTION_DATA_UPDATED";
     private static final int PERIOD = 300000;
     private static final int INITIAL_BACKOFF = 10000;
     private static final int PERIODIC_ID = 1;
@@ -40,7 +46,6 @@ public final class QuoteSyncJob {
     private QuoteSyncJob() { }
 
     static void getQuotes(Context context) {
-        Timber.d("Running sync job");
         Calendar from = Calendar.getInstance();
         Calendar to = Calendar.getInstance();
         from.add(Calendar.YEAR, -YEARS_OF_HISTORY);
@@ -69,8 +74,6 @@ public final class QuoteSyncJob {
                     float percentChange = quote.getChangeInPercent().floatValue();
                     // WARNING! Don't request historical data for a stock that doesn't exist!
                     // The request will hang forever X_x
-                    Timber.d("stock ---->" + stock.getName());
-                    Timber.d("stock ---->" + stock.getSymbol());
                     List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY);
                     StringBuilder historyBuilder = new StringBuilder();
                     for (HistoricalQuote it : history) {
@@ -102,7 +105,34 @@ public final class QuoteSyncJob {
         }
     }
 
+    private static final int REMINDER_INTERVAL_SECONDS = 1*60;
+    private static final int SYNC_FLEXTIME_SECONDS = 3*60;
+    private static final String REMINDER_JOB_TAG = "hydration_reminder_tag";
+    private static boolean sInitialized = false;
+
     private static void schedulePeriodic(Context context) {
+        if (!sInitialized) {
+            Driver driver = new GooglePlayDriver(context);
+            FirebaseJobDispatcher jobDispatcher = new FirebaseJobDispatcher(driver);
+
+            Job.Builder builder = jobDispatcher.newJobBuilder()
+                    .setService(QuoteIntentServiceFirebase.class)
+                    .setTag(REMINDER_JOB_TAG)
+                    .setLifetime(Lifetime.FOREVER)
+                    .setRecurring(true)
+                    .setTrigger(Trigger.executionWindow(
+                            REMINDER_INTERVAL_SECONDS,
+                            REMINDER_INTERVAL_SECONDS + SYNC_FLEXTIME_SECONDS))
+                    .setReplaceCurrent(true);
+
+            Job job = builder.build();
+            jobDispatcher.mustSchedule(job);
+            sInitialized = true;
+        }
+
+    }
+
+    private static void schedulePeriodicOld(Context context) {
         Timber.d("Scheduling a periodic task");
         JobInfo.Builder builder = new JobInfo.Builder(PERIODIC_ID, new ComponentName(context, QuoteJobService.class));
         builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)

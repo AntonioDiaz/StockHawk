@@ -168,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements
 			error.setText(getString(R.string.error_no_stocks));
 			error.setVisibility(View.VISIBLE);
 			Toast.makeText(this, R.string.toast_no_connectivity, Toast.LENGTH_LONG).show();
-
 		}
 		adapter.setCursor(data);
 	}

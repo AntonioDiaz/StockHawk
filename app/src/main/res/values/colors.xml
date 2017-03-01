@@ -9,5 +9,6 @@
     <color name="material_green_700">#00C853</color>
 
     <color name="colorWhite">#FFF</color>
+    <color name="colorBlack">#000</color>
 
 </resources>

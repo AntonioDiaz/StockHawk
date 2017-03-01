@@ -41,5 +41,10 @@
     <string name="historical_position">Historical position</string>
 
     <string name="action_add_stock">Add stock to the list</string>
+    <string name="empty_stock_list">Empty stock list</string>
+    <string name="title_widget_list">Stocks List</string>
+
+    <string name="example_stock_name">Great Inc.</string>
+    <string name="example_stock_change">12.02</string>
 
 </resources>
