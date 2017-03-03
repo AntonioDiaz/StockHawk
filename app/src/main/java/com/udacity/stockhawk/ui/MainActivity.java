@@ -33,6 +33,8 @@ import com.udacity.stockhawk.sync.QuoteSyncJob;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.udacity.stockhawk.sync.QuoteSyncJob.ACTION_DATA_UPDATED;
+
 public class MainActivity extends AppCompatActivity implements
 		LoaderManager.LoaderCallbacks<Cursor>,
 		SwipeRefreshLayout.OnRefreshListener,
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements
 	private StockAdapter adapter;
 
 	private MenuItem mItemLastRefresh;
+	private Context mContext;
 
 	@Override
 	public void onClick(String symbol) {
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
+		mContext = this;
 		ButterKnife.bind(this);
 
 		adapter = new StockAdapter(this, this);
@@ -95,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements
 				String symbol = adapter.getSymbolAtPosition(viewHolder.getAdapterPosition());
 				PrefUtils.removeStock(MainActivity.this, symbol);
 				getContentResolver().delete(Contract.Quote.makeUriForStock(symbol), null, null);
+				Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+				mContext.sendBroadcast(dataUpdatedIntent);
 			}
 		}).attachToRecyclerView(stockRecyclerView);
 	}

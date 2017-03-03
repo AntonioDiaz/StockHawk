@@ -94,7 +94,7 @@ public class AddStockDialog extends DialogFragment {
 						existsStock = true;
 					}
 				}
-			} catch (IOException e) {
+			} catch (StringIndexOutOfBoundsException | IOException e) {
 				Timber.e(e, "Error fetching stock quotes");
 			}
 			return existsStock;
