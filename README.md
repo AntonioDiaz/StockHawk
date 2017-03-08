@@ -15,3 +15,5 @@ Pull requests gratefully accepted.
 ![Stock graph](https://antoniodiaz.github.io/images/stock_hawk/screen_02.png)
 ![Add stock dialog](https://antoniodiaz.github.io/images/stock_hawk/screen_03.png)
 ![Widget](https://antoniodiaz.github.io/images/stock_hawk/screen_04.png)
+
+<img src="https://antoniodiaz.github.io/images/stock_hawk/screen_04.png" width="48">
