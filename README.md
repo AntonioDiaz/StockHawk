@@ -11,9 +11,8 @@ If you're a Nanodegree student check your work againt the project [rubric](https
 Pull requests gratefully accepted.
 
 ### Screenshots
-![Main screen](https://antoniodiaz.github.io/images/stock_hawk/screen_01.png)
-![Stock graph](https://antoniodiaz.github.io/images/stock_hawk/screen_02.png)
-![Add stock dialog](https://antoniodiaz.github.io/images/stock_hawk/screen_03.png)
-![Widget](https://antoniodiaz.github.io/images/stock_hawk/screen_04.png)
-
-<img src="https://antoniodiaz.github.io/images/stock_hawk/screen_04.png" width="48">
+* Main screen
+* Stock graph
+* Add stock dialog
+* Widget 
+<img src="https://antoniodiaz.github.io/images/stock_hawk/screen_04.png" width="200">
